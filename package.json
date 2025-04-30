@@ -1,0 +1,11 @@
+{
+  "name": "imagify",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
