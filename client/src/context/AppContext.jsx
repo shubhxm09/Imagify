@@ -11,44 +11,33 @@ const AppContextProvider = (props) => {
     const [token, setToken] = useState(localStorage.getItem('token'))
     const [user, setUser] = useState(null)
 
-    const [credit, setCredit] = useState(false)
-
     const backendUrl = import.meta.env.VITE_BACKEND_URL
     const navigate = useNavigate()
 
-    const loadCreditsData = async () => {
+    const loadUserData = async () => {
         try {
-
-            const { data } = await axios.get(backendUrl + '/api/user/credits', { headers: { token } })
+            const { data } = await axios.get('/api/user/profile', { headers: { token } })
             if (data.success) {
-                setCredit(data.credits)
                 setUser(data.user)
             }
-
         } catch (error) {
             console.log(error)
-            toast.error(error.message)
+            toast.error(error.response?.data?.message || error.message)
         }
     }
 
     const generateImage = async (prompt) => {
         try {
-
-            const { data } = await axios.post(backendUrl + '/api/image/generate-image', { prompt }, { headers: { token } })
+            const { data } = await axios.post('/api/image/generate-image', { prompt }, { headers: { token } })
 
             if (data.success) {
-                loadCreditsData()
                 return data.resultImage
             } else {
                 toast.error(data.message)
-                loadCreditsData()
-                if (data.creditBalance === 0) {
-                    navigate('/buy')
-                }
             }
-
         } catch (error) {
-            toast.error(error.message)
+            console.error('Image generation error:', error)
+            toast.error(error.response?.data?.message || error.message)
         }
     }
 
@@ -60,7 +49,7 @@ const AppContextProvider = (props) => {
 
     useEffect(()=>{
         if (token) {
-            loadCreditsData()
+            loadUserData()
         }
     },[token])
 
@@ -68,8 +57,6 @@ const AppContextProvider = (props) => {
         token, setToken,
         user, setUser,
         showLogin, setShowLogin,
-        credit, setCredit,
-        loadCreditsData,
         backendUrl,
         generateImage,
         logout

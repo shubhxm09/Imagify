@@ -27,7 +27,7 @@ const BuyCredit = () => {
 
         try {
 
-          const { data } = await axios.post(backendUrl + '/api/user/verify-razor', response, { headers: { token } })
+          const { data } = await axios.post('/api/user/verify-razor', response, { headers: { token } })
           if (data.success) {
             loadCreditsData()
             navigate('/')
@@ -52,7 +52,7 @@ const BuyCredit = () => {
         setShowLogin(true)
       }
 
-      const { data } = await axios.post(backendUrl + '/api/user/pay-razor', { planId }, { headers: { token } })
+      const { data } = await axios.post('/api/user/pay-razor', { planId }, { headers: { token } })
       if (data.success) {
         initPay(data.order)
       }
@@ -64,7 +64,7 @@ const BuyCredit = () => {
   const paymentStripe = async (planId) => {
     try {
 
-      const { data } = await axios.post(backendUrl + '/api/user/pay-stripe', { planId }, { headers: { token } })
+      const { data } = await axios.post('/api/user/pay-stripe', { planId }, { headers: { token } })
       if (data.success) {
         const { session_url } = data
         window.location.replace(session_url)

@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 
 import Home from './pages/Home'
 import Result from './pages/Result'
-import BuyCredit from './pages/BuyCredit'
+import Gallery from './pages/Gallery'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 
@@ -25,8 +25,8 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/result' element={<Result />} />
-        <Route path='/buy' element={<BuyCredit />} />
         <Route path='/verify' element={<Verify />} />
+        <Route path='/gallery' element={<Gallery />} />
       </Routes>
       <Footer />
     </div>

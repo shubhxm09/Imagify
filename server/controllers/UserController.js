@@ -319,4 +319,33 @@ const verifyStripe = async (req, res) => {
 }
 
 
-export { registerUser, loginUser, userCredits, paymentRazorpay, verifyRazorpay, paymentStripe, verifyStripe }
+// API Controller function to get user profile
+const getUserProfile = async (req, res) => {
+    try {
+        const userId = req.userId;
+        
+        // Fetching userdata using userId
+        const user = await userModel.findById(userId);
+        
+        if (!user) {
+            return res.json({ success: false, message: 'User not found' });
+        }
+        
+        // Return user data without sensitive information
+        res.json({ 
+            success: true, 
+            user: {
+                name: user.name,
+                email: user.email,
+                creditBalance: user.creditBalance,
+                _id: user._id
+            } 
+        });
+        
+    } catch (error) {
+        console.log(error.message);
+        res.json({ success: false, message: error.message });
+    }
+};
+
+export { registerUser, loginUser, userCredits, paymentRazorpay, verifyRazorpay, paymentStripe, verifyStripe, getUserProfile }
